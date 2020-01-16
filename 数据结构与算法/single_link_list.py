@@ -23,6 +23,7 @@ LinkedList 是一种常见的基础数据结构, 是一种线性表, 但是不�
     * insert(pos, item) 指定位置添加元素
     * remove(item) 删除节点
     * search(item) 查找节点是否存在 
+后继节点: 指的就是 cur.next
 """
 
 # 单链表的实现: 实现需要明白一方面解决数据保存问题,另一方面是数据的操作
@@ -102,12 +103,37 @@ class SingleLinkList(object):
             node.next = pre.next # 新节点指向插入前一个节点的后节点
             pre.next = node # 前一个节点指向新节点
     def remove(self, item):
-        """删除节点"""
-        pass 
+        """删除节点
+        eg: 2 3 2 3 remove 2 -> 3 2 3
+        删除节点, 该节点的前一个节点还需要指向删除节点的后一个节点
+        <pre.next = cur.next> -> <pre.next = pre.next.next>
+        """
+        cur = self.__head 
+        pre = None
+        while cur != None:
+            if cur.item == item:
+                # 特殊情况
+                ## 1. 先判断此节点是否是头节点
+                ### 如果是头节点, self.__head 就要往下指
+                if cur == self.__head:
+                    self.__head = cur.next
+                    break
+                else:
+                    pre.next = cur.next
+                    break
+            else:
+                pre = cur # 开始移动游标
+                cur = cur.next 
     def search(self, item):
         """查找节点是否存在"""
-        pass
-
+        # 特殊情况就是self.__head = None 情况
+        cur = self.__head # 游标指针,从头节点开始进行比对
+        while cur != None:
+            if cur.item == item:
+                return True
+            else:
+                cur = cur.next
+        return False
 if __name__ == '__main__':
     sll = SingleLinkList() # 空链表
     print(sll.is_empty())
@@ -134,4 +160,14 @@ if __name__ == '__main__':
 
     print('*'*10)
     sll.insert(6, 1)
+    sll.travel()
+
+    print('*'*10)
+    print(sll.search(100))
+
+    print('*'*10)
+    sll.remove(1)
+    sll.travel()
+    print('*'*10)
+    sll.remove(6)
     sll.travel()
