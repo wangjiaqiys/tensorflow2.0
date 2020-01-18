@@ -40,7 +40,7 @@ class SingleLinkList(object):
         self.__head = node # 私有属性,head指针不需要对外<私有变量主要双下划线>
     def is_empty(self):
         """判断链表是否为空"""
-        return self.__head is None
+        return (self.__head is None)
     def length(self):
         """返回链表的长度"""
         # 需要完成从头到尾的遍历
